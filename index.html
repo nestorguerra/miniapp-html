@@ -54,15 +54,27 @@
       font-weight: 600;
     }
     .github-link:hover { text-decoration: underline; }
-    .qr img {
-      width: min(320px, 80vw);
-      height: auto;
-      border-radius: 12px;
-      border: 1px solid #d7def5;
+    .qr {
+      display: grid;
+      place-items: center;
+      gap: 10px;
+    }
+    #qrcode {
       background: #fff;
+      border: 1px solid #d7def5;
+      border-radius: 12px;
+      padding: 10px;
+      line-height: 0;
+    }
+    #qrcode img,
+    #qrcode canvas {
+      width: min(320px, 80vw) !important;
+      height: min(320px, 80vw) !important;
+      display: block;
+      border-radius: 8px;
     }
     .hint {
-      margin-top: 10px;
+      margin-top: 2px;
       color: #4a5678;
       font-size: 0.95rem;
     }
@@ -76,19 +88,32 @@
     <p id="mensaje" aria-live="polite"></p>
 
     <p>GitHub Web de la app:</p>
-    <a class="github-link" href="https://nestorguerra.github.io/miniapp-html/" target="_blank" rel="noopener noreferrer">
+    <a id="app-link" class="github-link" href="https://nestorguerra.github.io/miniapp-html/" target="_blank" rel="noopener noreferrer">
       https://nestorguerra.github.io/miniapp-html/
     </a>
 
     <section class="qr" aria-label="Código QR de la app">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=700x700&data=https://nestorguerra.github.io/miniapp-html/" alt="Código QR para abrir la app publicada en GitHub Pages">
-      <p class="hint">Haz una foto o escanéalo con la cámara del iPhone para abrir la app directamente.</p>
+      <div id="qrcode" aria-hidden="true"></div>
+      <p class="hint">Este QR abre directamente la app de GitHub Pages.</p>
+      <p class="hint">Si no se ve el QR, abre este enlace: <a href="https://nestorguerra.github.io/miniapp-html/">ir a la app</a>.</p>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script>
+    const appUrl = 'https://nestorguerra.github.io/miniapp-html/';
+
     document.getElementById('btn-hola').addEventListener('click', function () {
       document.getElementById('mensaje').textContent = 'Hola mundo';
+    });
+
+    new QRCode(document.getElementById('qrcode'), {
+      text: appUrl,
+      width: 700,
+      height: 700,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
     });
   </script>
 </body>
